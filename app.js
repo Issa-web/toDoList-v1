@@ -5,17 +5,46 @@ const express = require("express")
 const app = express()
 app.use(express.static("public")); 
 app.use(bodyParser.urlencoded({extended: true}));
+app.set('view engine', 'ejs');
 
 app.get("/", (req, res) =>{
     let today = new Date();
-    console.log(today.getHours())
-    if( today.getDay() === 6 ||today.getDay() === 0 ){
-        res.send(" Yeah it's the weenkend")
-    } else {
-        res.send(" Boo! I have to work!")
+    // console.log(today.getHours())
+    let currentDay = today.getDay()
+    let day = "";
+    switch (currentDay) {
+        case 0:
+            day = "Sunday"
+            break;
+        case 1:
+            day = "Monday"
+            break;
+        case 2:
+            day = "Tuesday"
+            break;
+        case 3:
+            day = "Wednesday"
+            break;
+        case 4:
+            day = "Thursday"
+            break;
+        case 5:
+            day = "Friday"
+            break;
+        case 6:
+            day = "Saturday"
+            break;
+    
+        default:
+            console.log("Error: the day is" + currentDay )
     }
-
+    res.render('list', {kindOfDay: day});
 })
+// app.set('view engine', 'ejs');
+
+// app.get('/', (req, res) => {
+//   res.render('index', {foo: 'FOO'});
+// });
  
  
 app.listen(3000, () =>{
